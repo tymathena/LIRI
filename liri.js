@@ -72,6 +72,56 @@ Album: ${songs[i]["album"]["name"]}`);
                 console.log(e);
             })
 
+        } else if (response.category === "Movies") {
+
+            URL = "http://www.omdbapi.com/?apikey=94f572e2&s=" + response.query
+
+            axios.get(URL).then(function (response) {
+
+                //console.log(JSON.stringify(response.data, null, 2))
+
+                const movies = response.data.Search
+
+                //console.log(movies)
+
+                for(let i = 0; i < num && i < movies.length; i++) {
+
+                    //console.log(JSON.stringify(songs[i], null, 2))
+
+                    console.log(`Name: ${movies[i]["Title"]}
+Year: ${movies[i]["Year"]}`);
+
+                    console.log(divider);
+
+                }
+
+            }).catch(function (e) {
+                console.log(e);
+            })
+
+        } else {
+
+            console.log("\n\n");
+            
+            spotify.search({type: "artist", query: response.query}).then(function (response) {
+
+                const songs = response.artists.items;
+
+                for(let i = 0; i < num && i < songs.length; i++) {
+
+                    //console.log(JSON.stringify(songs[i], null, 2))
+
+                    console.log(`Name: ${songs[i]["name"]}
+Genres: ${songs[i]["genres"].join(", ")}`);
+
+                    console.log(divider);
+                    
+                }
+
+            }).catch(function (e) {
+                console.log(e);
+            })
+
         }
 
     })
